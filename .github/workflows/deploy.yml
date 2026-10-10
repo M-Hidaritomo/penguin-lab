@@ -1,0 +1,58 @@
+name: Deploy
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 21 * * *' # 毎日 JST 6:00。混雑時は数十分遅れることがある
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Restore note cache
+        uses: actions/cache/restore@v4
+        with:
+          path: src/data/note-cache.json
+          key: note-cache-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: note-cache-
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+        env:
+          SITE_ORIGIN: ${{ steps.pages.outputs.origin }}
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+      - run: npm run test:dist
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+      - name: Save note cache
+        uses: actions/cache/save@v4
+        with:
+          path: src/data/note-cache.json
+          key: note-cache-${{ github.run_id }}-${{ github.run_attempt }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
