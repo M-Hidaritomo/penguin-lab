@@ -1,0 +1,22 @@
+{
+  "name": "penguin-lab-website",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "vitest run",
+    "test:dist": "vitest run --config vitest.dist.config.ts",
+    "check": "astro build && vitest run && vitest run --config vitest.dist.config.ts"
+  },
+  "dependencies": {
+    "@fontsource/zen-maru-gothic": "^5.3.0",
+    "astro": "^7.3.8",
+    "fast-xml-parser": "^5.11.2"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.3"
+  }
+}
