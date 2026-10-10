@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>test</title><link>https://note.com/test</link>
+<item><title>使える記事</title><link>https://note.com/test/n/1</link><pubDate>Mon, 05 Oct 2026 12:00:00 +0900</pubDate><description>本文はここに入ります。取り込まない。</description></item>
+<item><title>危険なリンク</title><link>javascript:alert(1)</link><pubDate>Fri, 09 Oct 2026 12:00:00 +0900</pubDate><description>本文はここに入ります。取り込まない。</description></item>
+</channel></rss>

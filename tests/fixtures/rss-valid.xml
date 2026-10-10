@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>test</title><link>https://note.com/test</link>
+<item><title>記事C</title><link>https://note.com/test/n/記事C</link><pubDate>Sat, 03 Oct 2026 12:00:00 +0900</pubDate><description>本文はここに入ります。取り込まない。</description></item>
+<item><title>記事G</title><link>https://note.com/test/n/記事G</link><pubDate>Wed, 07 Oct 2026 12:00:00 +0900</pubDate><description>本文はここに入ります。取り込まない。</description></item>
+<item><title>記事A</title><link>https://note.com/test/n/記事A</link><pubDate>Thu, 01 Oct 2026 12:00:00 +0900</pubDate><description>本文はここに入ります。取り込まない。</description></item>
+<item><title>記事F</title><link>https://note.com/test/n/記事F</link><pubDate>Tue, 06 Oct 2026 12:00:00 +0900</pubDate><description>本文はここに入ります。取り込まない。</description></item>
+<item><title>記事B</title><link>https://note.com/test/n/記事B</link><pubDate>Fri, 02 Oct 2026 12:00:00 +0900</pubDate><description>本文はここに入ります。取り込まない。</description></item>
+<item><title>記事E</title><link>https://note.com/test/n/記事E</link><pubDate>Mon, 05 Oct 2026 12:00:00 +0900</pubDate><description>本文はここに入ります。取り込まない。</description></item>
+<item><title>記事D</title><link>https://note.com/test/n/記事D</link><pubDate>Sun, 04 Oct 2026 12:00:00 +0900</pubDate><description>本文はここに入ります。取り込まない。</description></item>
+</channel></rss>
