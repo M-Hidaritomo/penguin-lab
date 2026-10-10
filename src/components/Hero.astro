@@ -15,9 +15,9 @@ import Paw from './Paw.astro';
         <span class="hero__shadow" aria-hidden="true"></span>
       </div>
       <div class="hero__paws" aria-hidden="true">
-        <Paw size={22} rotate={80} />
-        <Paw size={22} rotate={95} />
-        <Paw size={22} rotate={70} />
+        <Paw size={22} rotate={-100} />
+        <Paw size={22} rotate={-85} />
+        <Paw size={22} rotate={-100} />
       </div>
     </div>
     <div class="hero__text">
@@ -107,11 +107,17 @@ import Paw from './Paw.astro';
     }
     .hero__paws {
       display: flex;
-      flex-direction: column;
+      align-items: flex-end;
       gap: var(--space-3);
       position: absolute;
-      left: -8px;
-      bottom: 10px;
+      left: -40px;
+      bottom: 6px;
+    }
+    .hero__paws :global(.paw:nth-child(1)) {
+      margin-bottom: 22px;
+    }
+    .hero__paws :global(.paw:nth-child(2)) {
+      margin-bottom: 8px;
     }
     .hero__title {
       line-height: 1.3;
