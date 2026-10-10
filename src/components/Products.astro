@@ -1,0 +1,97 @@
+---
+import type { Product } from '../data/products';
+import { isSafeHttpUrl } from '../lib/url';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+  products: readonly Product[];
+}
+const { products } = Astro.props;
+---
+<section class="section" id="products" aria-labelledby="products-title">
+  <div class="container">
+    <SectionHeading id="products-title">つくっているもの</SectionHeading>
+    <p class="lead products__lead">毎日の"めんどうだな"を、小さなWebアプリで解決します</p>
+    {products.length === 0 ? (
+      <div class="placeholder-card" data-testid="products-wip">
+        <p class="chip products__chip">開発中</p>
+        <p class="lead">1本目のサービスを開発中です。公開したらここでお知らせします</p>
+      </div>
+    ) : (
+      <ul class="product-list" data-count={products.length}>
+        {products.map((p) => (
+          <li class="product-card">
+            <div class="product-card__head">
+              <h3 class="product-card__name">{p.name}</h3>
+              {p.status && <span class="chip">{p.status}</span>}
+            </div>
+            <p>{p.summary}</p>
+            {isSafeHttpUrl(p.url) && (
+              <a class="product-card__link" href={p.url} target="_blank" rel="noopener noreferrer">
+                見る →<span class="visually-hidden">（新しいタブで開きます）</span>
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</section>
+<style>
+  .products__lead {
+    max-width: 28em;
+    margin: 0 auto var(--space-5);
+    text-align: center;
+  }
+  .products__chip {
+    background: var(--color-surface);
+    margin-bottom: var(--space-3);
+  }
+  .product-list {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+  .product-list[data-count='1'] {
+    max-width: 720px;
+  }
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    border: var(--border-card);
+    border-radius: var(--radius-l);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+  .product-card__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .product-card__name {
+    font-size: var(--text-h3);
+    line-height: 1.5;
+    font-weight: 700;
+  }
+  .product-card__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: auto;
+    font-weight: 700;
+  }
+  @media (min-width: 768px) {
+    .product-list {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+    .product-list[data-count='1'] {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

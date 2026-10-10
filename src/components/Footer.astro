@@ -1,0 +1,100 @@
+---
+import { siteConfig } from '../config';
+import { isSafeHttpUrl } from '../lib/url';
+import Paw from './Paw.astro';
+
+interface Props {
+  xUrl?: string;
+  noteUrl?: string;
+  year?: number;
+}
+const { xUrl = siteConfig.xUrl, noteUrl = siteConfig.noteUrl, year = new Date().getFullYear() } = Astro.props;
+
+const items = [
+  { name: 'X', icon: 'X', url: xUrl },
+  { name: 'note', icon: 'n', url: noteUrl },
+];
+---
+<footer class="site-footer" id="site-footer">
+  <div class="container footer__inner">
+    <ul class="sns">
+      {items.map((s) => (
+        <li>
+          {isSafeHttpUrl(s.url) ? (
+            <a class="sns__item" href={s.url} target="_blank" rel="noopener noreferrer">
+              <span class="sns__icon" aria-hidden="true">{s.icon}</span>
+              <span>{s.name}<span class="visually-hidden">（新しいタブで開きます）</span></span>
+            </a>
+          ) : (
+            <span class="sns__item sns__item--off" aria-disabled="true">
+              <span class="sns__icon" aria-hidden="true">{s.icon}</span>
+              <span>{s.name}（準備中）</span>
+            </span>
+          )}
+        </li>
+      ))}
+    </ul>
+    <p class="small copyright">
+      <Paw size={12} rotate={-15} />
+      <span>© {year} ペンギンラボ</span>
+      <Paw size={12} rotate={15} />
+    </p>
+  </div>
+</footer>
+<style>
+  .site-footer {
+    padding-block: 40px;
+    background: var(--color-bg-alt);
+  }
+  .footer__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  .sns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .sns__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: 0 20px;
+    border: var(--border-card);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  a.sns__item:hover {
+    background: var(--color-accent-soft);
+  }
+  .sns__item--off {
+    border: 1.5px dashed var(--color-text-muted);
+    background: transparent;
+    color: var(--color-text-muted);
+  }
+  .sns__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .copyright {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+  }
+</style>

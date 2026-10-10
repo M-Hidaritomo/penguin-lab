@@ -1,0 +1,121 @@
+---
+import type { NoteFeedResult } from '../lib/note-feed';
+import { formatJaDate } from '../lib/format-date';
+import { isSafeHttpUrl } from '../lib/url';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+  feed: NoteFeedResult;
+  noteUrl: string;
+}
+const { feed, noteUrl } = Astro.props;
+const articles = feed.state === 'fresh' || feed.state === 'cached' ? feed.articles : [];
+const hasNoteUrl = isSafeHttpUrl(noteUrl);
+---
+<section class="section" id="notes" aria-labelledby="notes-title">
+  <div class="container">
+    <SectionHeading id="notes-title">開発ノート</SectionHeading>
+    <p class="lead notes__lead">開発の過程は note に書いています。新着はこちら。</p>
+
+    {feed.state === 'unconfigured' ? (
+      <div class="placeholder-card" data-testid="notes-preparing">
+        <p class="lead">準備中です。noteでの発信を始めたら、ここに新着を表示します。</p>
+      </div>
+    ) : (
+      <>
+        {articles.length > 0 && (
+          <ul class="article-list" data-testid="notes-list">
+            {articles.map((a) => (
+              <li>
+                <a class="article" href={a.url} target="_blank" rel="noopener noreferrer">
+                  <time class="small article__date" datetime={a.publishedAt}>{formatJaDate(a.publishedAt)}</time>
+                  <span class="article__title">{a.title}</span>
+                  <span class="article__arrow" aria-hidden="true">→</span>
+                  <span class="visually-hidden">（新しいタブで開きます）</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+        {hasNoteUrl && (
+          <p class={articles.length > 0 ? 'notes__more' : 'notes__more notes__more--only'}>
+            <a class="btn" href={noteUrl} target="_blank" rel="noopener noreferrer">
+              noteで読む →<span class="visually-hidden">（新しいタブで開きます）</span>
+            </a>
+          </p>
+        )}
+      </>
+    )}
+  </div>
+</section>
+<style>
+  .notes__lead {
+    max-width: 28em;
+    margin: 0 auto var(--space-5);
+    text-align: center;
+  }
+  .article-list {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0;
+    overflow: hidden;
+    border: var(--border-card);
+    border-radius: var(--radius-l);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+    list-style: none;
+  }
+  .article-list li + li {
+    border-top: 1px solid var(--color-line);
+  }
+  .article {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: 'date arrow' 'title arrow';
+    align-items: center;
+    column-gap: var(--space-3);
+    min-height: 64px;
+    padding: 16px 20px;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+  .article:hover {
+    background: rgba(220, 229, 238, 0.5);
+  }
+  .article__date {
+    grid-area: date;
+    color: var(--color-text-muted);
+  }
+  .article__title {
+    grid-area: title;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    font-weight: 700;
+  }
+  .article__arrow {
+    grid-area: arrow;
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+  .notes__more {
+    margin-top: var(--space-5);
+    text-align: center;
+  }
+  .notes__more--only {
+    margin-top: 0;
+  }
+  @media (min-width: 768px) {
+    .article {
+      grid-template-columns: 9em 1fr auto;
+      grid-template-areas: 'date title arrow';
+    }
+    .article__title {
+      display: block;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+</style>

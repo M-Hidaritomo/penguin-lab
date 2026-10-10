@@ -1,0 +1,101 @@
+---
+import { withBase } from '../lib/url';
+import Paw from './Paw.astro';
+
+const links = [
+  { href: '#about', label: '私たちについて' },
+  { href: '#products', label: 'つくっているもの' },
+  { href: '#members', label: '社員紹介' },
+  { href: '#notes', label: '開発ノート' },
+];
+---
+<header class="site-header" id="site-header">
+  <div class="container site-header__inner">
+    <a class="logo" href={withBase('')}>
+      <Paw size={18} rotate={-15} />
+      <span>ペンギンラボ</span>
+    </a>
+    <nav aria-label="ページ内メニュー">
+      <ul class="nav">
+        {links.map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+<style>
+  .site-header {
+    background: var(--color-bg);
+    padding-block: var(--space-3) var(--space-2);
+  }
+  .site-header__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    align-self: flex-start;
+    min-height: 44px;
+    color: var(--color-text);
+    font-size: 20px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 14px;
+    border: var(--border-card);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .nav a:hover {
+    background: var(--color-accent-soft);
+  }
+  @media (min-width: 768px) {
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      height: 64px;
+      padding-block: 0;
+      border-bottom: var(--border-card);
+    }
+    .site-header__inner {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+    .nav {
+      display: flex;
+      gap: var(--space-1);
+    }
+    .nav a {
+      min-height: 40px;
+      border-color: transparent;
+      background: transparent;
+    }
+    .nav a:hover {
+      background: var(--color-accent-soft);
+    }
+  }
+</style>

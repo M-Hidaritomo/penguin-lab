@@ -1,0 +1,190 @@
+:root {
+  --color-bg: #f9f8f7;
+  --color-bg-illust: #f9f8f7;
+  --color-bg-alt: #f0ebe0;
+  --color-surface: #ffffff;
+  --color-text: #4a3728;
+  --color-text-muted: #6e5a4c;
+  --color-accent: #3f5a78;
+  --color-accent-hover: #2f4660;
+  --color-accent-soft: #dce5ee;
+  --color-on-accent: #ffffff;
+  --color-line: #ddd3c4;
+  --color-focus: #3f5a78;
+
+  --font-base: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', 'Yu Gothic', sans-serif;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 72px;
+
+  --radius-s: 8px;
+  --radius-m: 16px;
+  --radius-l: 24px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 2px 8px rgba(74, 55, 40, 0.08);
+  --shadow-card-hover: 0 6px 16px rgba(74, 55, 40, 0.12);
+  --border-card: 1.5px solid var(--color-line);
+
+  --container: 1080px;
+  --container-pad: 20px;
+  --section-py: 56px;
+
+  --text-hero: 32px;
+  --text-h2: 26px;
+  --text-h3: 18px;
+  --text-lead: 17px;
+  --text-body: 16px;
+  --text-small: 14px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --container-pad: 32px;
+    --section-py: 96px;
+    --text-hero: 52px;
+    --text-h2: 34px;
+    --text-h3: 20px;
+    --text-lead: 19px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-padding-top: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: 80px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-base);
+  font-size: var(--text-body);
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--color-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+.section {
+  padding-block: var(--section-py);
+  background: var(--color-bg);
+}
+
+.section--alt {
+  background: var(--color-bg-alt);
+}
+
+.lead {
+  font-size: var(--text-lead);
+  line-height: 1.8;
+}
+
+.small {
+  font-size: var(--text-small);
+  line-height: 1.7;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 主ボタン */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: var(--color-accent-hover);
+}
+
+/* 「準備中」「開発中」の破線カード */
+.placeholder-card {
+  max-width: 720px;
+  margin-inline: auto;
+  padding: var(--space-5);
+  border: 1.5px dashed var(--color-accent);
+  border-radius: var(--radius-l);
+  background: var(--color-accent-soft);
+  text-align: center;
+}
+
+.chip {
+  display: inline-block;
+  padding: var(--space-1) 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-soft);
+  color: var(--color-text);
+  font-size: var(--text-small);
+  font-weight: 700;
+  line-height: 1.6;
+}

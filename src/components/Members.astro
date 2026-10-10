@@ -1,0 +1,132 @@
+---
+import type { Member } from '../data/members';
+import { withBase } from '../lib/url';
+import Paw from './Paw.astro';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+  members: readonly Member[];
+}
+const { members } = Astro.props;
+---
+<section class="section section--alt" id="members" aria-labelledby="members-title">
+  <div class="container">
+    <SectionHeading id="members-title">社員紹介</SectionHeading>
+    <p class="lead members__lead">
+      8人のチームで、企画から開発、発信まで行っています。ペンギンラボの社員は、代表と一緒に働くAIのキャラクターです。
+    </p>
+    <ul class="member-grid">
+      {members.map((m) => (
+        <li class="member-card">
+          <div class="member-card__img">
+            <img
+              src={withBase(m.image)}
+              width="400"
+              height="400"
+              loading="lazy"
+              alt={`${m.name}（${m.motif}）のイラスト`}
+            />
+          </div>
+          <h3 class="member-card__name">
+            <Paw size={12} rotate={-15} />
+            <span>{m.name}</span>
+            <Paw size={12} rotate={15} />
+          </h3>
+          <p class="small member-card__motif">{m.motif}</p>
+          <p class="chip member-card__role">{m.role}</p>
+          <p class="member-card__tagline">{m.tagline}</p>
+          <p class="small member-card__career">{m.career}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+<style>
+  .members__lead {
+    max-width: 32em;
+    margin: 0 auto var(--space-5);
+    text-align: center;
+  }
+  .member-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .member-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    padding: 12px;
+    border: var(--border-card);
+    border-radius: var(--radius-l);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+    text-align: center;
+  }
+  .member-card__img {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: var(--radius-m);
+    background: var(--color-bg-illust);
+  }
+  .member-card__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .member-card__name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    font-size: var(--text-h3);
+    line-height: 1.5;
+    font-weight: 700;
+  }
+  .member-card__motif {
+    color: var(--color-text-muted);
+  }
+  .member-card__role {
+    margin-top: var(--space-2);
+  }
+  .member-card__tagline {
+    flex: 1;
+    align-self: stretch;
+    margin-top: var(--space-3);
+    font-size: 15px;
+    line-height: 1.7;
+    text-align: left;
+  }
+  .member-card__career {
+    align-self: stretch;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dotted var(--color-line);
+    color: var(--color-text-muted);
+    text-align: left;
+  }
+  @media (min-width: 768px) {
+    .member-grid {
+      gap: 20px;
+    }
+    .member-card {
+      padding: var(--space-3);
+    }
+    .member-card__tagline {
+      font-size: var(--text-body);
+      line-height: 1.8;
+    }
+  }
+  @media (min-width: 1024px) {
+    .member-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+  }
+</style>

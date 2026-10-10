@@ -1,1 +1,33 @@
-<html lang="ja"><head><meta charset="utf-8" /><title>ペンギンラボ</title></head><body></body></html>
+---
+import path from 'node:path';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Products from '../components/Products.astro';
+import Members from '../components/Members.astro';
+import NoteSection from '../components/NoteSection.astro';
+import Footer from '../components/Footer.astro';
+import { siteConfig } from '../config';
+import { members } from '../data/members';
+import { products } from '../data/products';
+import { createFileCache, loadNoteFeed } from '../lib/note-feed';
+
+const feed = await loadNoteFeed({
+  noteUrl: siteConfig.noteUrl,
+  noteRssUrl: siteConfig.noteRssUrl,
+  cache: createFileCache(path.join(process.cwd(), 'src/data/note-cache.json')),
+  offline: process.env.NOTE_FEED_OFFLINE === '1',
+});
+---
+<BaseLayout>
+  <Header />
+  <main>
+    <Hero />
+    <About />
+    <Products products={products} />
+    <Members members={members} />
+    <NoteSection feed={feed} noteUrl={siteConfig.noteUrl} />
+  </main>
+  <Footer xUrl={siteConfig.xUrl} noteUrl={siteConfig.noteUrl} />
+</BaseLayout>

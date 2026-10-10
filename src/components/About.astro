@@ -1,0 +1,65 @@
+---
+import { mission, principles } from '../data/company';
+import SectionHeading from './SectionHeading.astro';
+---
+<section class="section section--alt" id="about" aria-labelledby="about-title">
+  <div class="container">
+    <SectionHeading id="about-title">私たちについて</SectionHeading>
+    <p class="lead about__mission">{mission.body}</p>
+    <ol class="principles">
+      {principles.map((p) => (
+        <li class="principle">
+          <span class="principle__no" aria-hidden="true">{p.no}</span>
+          <h3 class="principle__title">{p.title}</h3>
+          <p>{p.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+<style>
+  .about__mission {
+    max-width: 28em;
+    margin: 0 auto var(--space-5);
+    text-align: center;
+  }
+  .principles {
+    display: grid;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .principle {
+    padding: var(--space-4);
+    border: var(--border-card);
+    border-radius: var(--radius-l);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+  .principle__no {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-bottom: var(--space-3);
+    border-radius: 50%;
+    background: var(--color-accent-soft);
+    color: var(--color-text);
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .principle__title {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-h3);
+    line-height: 1.5;
+    font-weight: 700;
+  }
+  @media (min-width: 768px) {
+    .principles {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+  }
+</style>

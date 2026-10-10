@@ -1,0 +1,120 @@
+---
+import { withBase } from '../lib/url';
+import Paw from './Paw.astro';
+---
+<section class="hero section" id="hero" aria-labelledby="hero-title">
+  <div class="container hero__inner">
+    <div class="hero__art">
+      <div class="hero__img">
+        <img
+          src={withBase('members/penta.webp')}
+          width="400"
+          height="400"
+          alt="ペンギンラボのマスコット、ペンタ。青いチェックのマフラーをしたペンギン"
+        />
+        <span class="hero__shadow" aria-hidden="true"></span>
+      </div>
+      <div class="hero__paws" aria-hidden="true">
+        <Paw size={22} rotate={80} />
+        <Paw size={22} rotate={95} />
+        <Paw size={22} rotate={70} />
+      </div>
+    </div>
+    <div class="hero__text">
+      <h1 id="hero-title" class="hero__title">
+        <span>日常の面倒を</span><span>なくす</span>
+      </h1>
+      <p class="lead hero__desc">
+        毎日の「めんどうだな」を、小さなWebアプリで解決する小さなチームです。作る過程も、うまくいかなかったことも、正直に発信します。
+      </p>
+      <a class="btn" href="#notes">開発の様子を見る</a>
+    </div>
+  </div>
+</section>
+<style>
+  .hero {
+    padding-block: 40px;
+  }
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .hero__art {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: var(--space-3);
+  }
+  .hero__img {
+    position: relative;
+    width: 220px;
+    isolation: isolate;
+  }
+  .hero__img img {
+    width: 100%;
+  }
+  .hero__shadow {
+    position: absolute;
+    left: 20%;
+    bottom: 12px;
+    width: 60%;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(74, 55, 40, 0.1);
+    z-index: -1;
+  }
+  .hero__paws {
+    display: none;
+    opacity: 0.5;
+  }
+  .hero__title {
+    font-size: var(--text-hero);
+    line-height: 1.35;
+    font-weight: 700;
+    margin-bottom: var(--space-3);
+  }
+  .hero__title span {
+    display: inline-block;
+  }
+  .hero__desc {
+    max-width: 32em;
+    margin-bottom: var(--space-4);
+  }
+  @media (min-width: 768px) {
+    .hero {
+      padding-block: 96px;
+    }
+    .hero__inner {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      align-items: center;
+      gap: var(--space-5);
+    }
+    .hero__text {
+      order: 1;
+    }
+    .hero__art {
+      order: 2;
+    }
+    .hero__img {
+      width: 400px;
+      max-width: 100%;
+    }
+    .hero__shadow {
+      bottom: 24px;
+    }
+    .hero__paws {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      position: absolute;
+      left: -8px;
+      bottom: 10px;
+    }
+    .hero__title {
+      line-height: 1.3;
+    }
+  }
+</style>

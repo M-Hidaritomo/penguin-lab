@@ -1,0 +1,30 @@
+---
+// 自作の足あと飾り（絵文字は環境で見た目が変わるため使わない）。インライン SVG なので base パスの影響を受けない。
+interface Props {
+  size?: number;
+  rotate?: number;
+  class?: string;
+}
+const { size = 16, rotate = 0, class: className } = Astro.props;
+---
+<svg
+  class:list={['paw', className]}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  aria-hidden="true"
+  focusable="false"
+  style={`transform: rotate(${rotate}deg)`}
+>
+  <ellipse cx="12" cy="16" rx="5.5" ry="4.5" fill="currentColor"></ellipse>
+  <circle cx="4.5" cy="10.5" r="2.4" fill="currentColor"></circle>
+  <circle cx="9" cy="5.5" r="2.4" fill="currentColor"></circle>
+  <circle cx="15" cy="5.5" r="2.4" fill="currentColor"></circle>
+  <circle cx="19.5" cy="10.5" r="2.4" fill="currentColor"></circle>
+</svg>
+<style>
+  .paw {
+    flex: none;
+    color: var(--color-line);
+  }
+</style>
