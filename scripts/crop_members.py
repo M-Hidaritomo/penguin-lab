@@ -3,6 +3,9 @@
 使い方:
     python -m pip install -r scripts/requirements.txt
     python scripts/crop_members.py <members-sheet.png のパス> public/members
+
+元画像シートに無い社員（ホロ）の画像は、400x400 の画像を別に用意して背景だけそろえる:
+    python scripts/crop_members.py --normalize public/members/holo.webp
 """
 import sys
 from pathlib import Path
@@ -55,7 +58,21 @@ def flatten_background(img: Image.Image, tol: int = 6) -> Image.Image:
     return img
 
 
+def normalize_file(path: Path) -> int:
+    img = Image.open(path).convert("RGB")
+    if img.size != (SIZE, SIZE):
+        print(f"{path}: サイズが {img.size}（{SIZE}x{SIZE} が必要）")
+        return 1
+    flatten_background(img).save(path, "WEBP", lossless=True, method=6)
+    out = Image.open(path).convert("RGB")
+    ok = out.getpixel((0, 0)) == BG and out.getpixel((SIZE - 1, SIZE - 1)) == BG
+    print(f"{path.name}: {path.stat().st_size // 1024}KB 四隅={'OK' if ok else 'NG'}")
+    return 0 if ok and path.stat().st_size <= MAX_BYTES else 1
+
+
 def main() -> int:
+    if len(sys.argv) == 3 and sys.argv[1] == "--normalize":
+        return normalize_file(Path(sys.argv[2]))
     if len(sys.argv) != 3:
         print(__doc__)
         return 2

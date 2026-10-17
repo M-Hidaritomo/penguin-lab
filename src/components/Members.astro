@@ -13,7 +13,7 @@ const { members } = Astro.props;
   <div class="container">
     <SectionHeading id="members-title">社員紹介</SectionHeading>
     <p class="lead members__lead">
-      8人のチームで、企画から開発、発信まで行っています。ペンギンラボの社員は、代表と一緒に働くAIのキャラクターです。
+      9人のチームで、企画から開発、発信まで行っています。ぺんぎんラボの社員は、代表と一緒に働くAIのキャラクターです。
     </p>
     <ul class="member-grid">
       {members.map((m) => (
@@ -56,6 +56,12 @@ const { members } = Astro.props;
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+  /* 2列のとき、奇数人目の最後の1人は中央に置く */
+  .member-grid > li:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc((100% - 12px) / 2);
   }
   .member-card {
     display: flex;
@@ -115,7 +121,12 @@ const { members } = Astro.props;
   }
   @media (min-width: 768px) {
     .member-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 20px;
+    }
+    .member-grid > li:last-child:nth-child(odd) {
+      grid-column: auto;
+      width: auto;
     }
     .member-card {
       padding: var(--space-3);
@@ -127,7 +138,6 @@ const { members } = Astro.props;
   }
   @media (min-width: 1024px) {
     .member-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: var(--space-4);
     }
   }

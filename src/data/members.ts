@@ -82,4 +82,13 @@ export const members: readonly Member[] = [
     career: '個人ブログ3年、分かりやすい文章が得意',
     image: 'members/piyo.webp',
   },
+  {
+    id: 'holo',
+    name: 'ホロ',
+    motif: 'ふくろう',
+    role: 'マーケター',
+    tagline: '物知りで落ち着いた観察家。根拠を確かめる',
+    career: '市場調査会社5年、アクセス解析',
+    image: 'members/holo.webp',
+  },
 ];

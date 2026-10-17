@@ -19,6 +19,10 @@ const feed = await loadNoteFeed({
   cache: createFileCache(path.join(process.cwd(), 'src/data/note-cache.json')),
   offline: process.env.NOTE_FEED_OFFLINE === '1',
 });
+
+// Windows の Node で、fetch 直後にプロセスが終了すると libuv がクラッシュする（ローカルのビルドだけの問題）。
+// 取得した場合だけ、接続の後始末が終わるまで少し待つ。
+if (feed.state !== 'unconfigured') await new Promise((resolve) => setTimeout(resolve, 500));
 ---
 <BaseLayout>
   <Header />

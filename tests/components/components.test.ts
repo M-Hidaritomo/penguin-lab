@@ -42,14 +42,14 @@ describe('Products', () => {
 });
 
 describe('Members', () => {
-  it('8枚・組織図順・alt あり', async () => {
+  it('9枚・組織図順・alt あり', async () => {
     const html = await render(Members, { members });
-    expect(count(html, '<li class="member-card"')).toBe(8);
+    expect(count(html, '<li class="member-card"')).toBe(9);
     const pos = members.map((m) => html.indexOf(`alt="${m.name}（${m.motif}）のイラスト"`));
     expect(pos.every((p) => p >= 0)).toBe(true);
     expect([...pos].sort((x, y) => x - y)).toEqual(pos);
     for (const m of members) expect(html).toContain(`alt="${m.name}（${m.motif}）のイラスト"`);
-    expect(html).toContain('ペンギンラボの社員は、代表と一緒に働くAIのキャラクターです。');
+    expect(html).toContain('ぺんぎんラボの社員は、代表と一緒に働くAIのキャラクターです。');
   });
 });
 
@@ -90,7 +90,7 @@ describe('Footer', () => {
     expect(html).toContain('X（準備中）');
     expect(html).toContain('note（準備中）');
     expect(html).not.toContain('<a ');
-    expect(html).toContain('© 2026 ペンギンラボ');
+    expect(html).toContain('© 2026 ぺんぎんラボ');
   });
   it('設定時はリンク', async () => {
     const html = await render(Footer, { xUrl: 'https://x.com/a', noteUrl: 'https://note.com/a' });
