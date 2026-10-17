@@ -11,8 +11,8 @@ interface Props {
 const { xUrl = siteConfig.xUrl, noteUrl = siteConfig.noteUrl, year = new Date().getFullYear() } = Astro.props;
 
 const items = [
-  { name: 'X', icon: 'X', url: xUrl },
-  { name: 'note', icon: 'n', url: noteUrl },
+  { name: 'X', url: xUrl },
+  { name: 'note', url: noteUrl },
 ];
 ---
 <footer class="site-footer" id="site-footer">
@@ -22,12 +22,10 @@ const items = [
         <li>
           {isSafeHttpUrl(s.url) ? (
             <a class="sns__item" href={s.url} target="_blank" rel="noopener noreferrer">
-              <span class="sns__icon" aria-hidden="true">{s.icon}</span>
               <span>{s.name}<span class="visually-hidden">（新しいタブで開きます）</span></span>
             </a>
           ) : (
             <span class="sns__item sns__item--off" aria-disabled="true">
-              <span class="sns__icon" aria-hidden="true">{s.icon}</span>
               <span>{s.name}（準備中）</span>
             </span>
           )}
@@ -64,9 +62,9 @@ const items = [
   .sns__item {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-2);
+    justify-content: center;
     min-height: 44px;
-    padding: 0 20px;
+    padding: 0 24px;
     border: var(--border-card);
     border-radius: var(--radius-pill);
     background: var(--color-surface);
@@ -81,15 +79,6 @@ const items = [
     border: 1.5px dashed var(--color-text-muted);
     background: transparent;
     color: var(--color-text-muted);
-  }
-  .sns__icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1;
   }
   .copyright {
     display: flex;

@@ -88,6 +88,7 @@ describe('Footer', () => {
   it('両方空でも「準備中」', async () => {
     const html = await render(Footer, { xUrl: '', noteUrl: '', year: 2026 });
     expect(html).toContain('X（準備中）');
+    expect(html).not.toContain('sns__icon');
     expect(html).toContain('note（準備中）');
     expect(html).not.toContain('<a ');
     expect(html).toContain('© 2026 ぺんぎんラボ');
@@ -95,6 +96,7 @@ describe('Footer', () => {
   it('設定時はリンク', async () => {
     const html = await render(Footer, { xUrl: 'https://x.com/a', noteUrl: 'https://note.com/a' });
     expect(html).toContain('href="https://x.com/a"');
+    expect(html).not.toContain('sns__icon');
     expect(html).toContain('href="https://note.com/a"');
     expect(html).not.toContain('準備中');
     expect(html).toContain('rel="noopener noreferrer"');
