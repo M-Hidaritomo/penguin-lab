@@ -42,9 +42,9 @@ describe('Products', () => {
 });
 
 describe('Members', () => {
-  it('9枚・組織図順・alt あり', async () => {
+  it('10枚・組織図順・alt あり', async () => {
     const html = await render(Members, { members });
-    expect(count(html, '<li class="member-card"')).toBe(9);
+    expect(count(html, '<li class="member-card"')).toBe(10);
     const pos = members.map((m) => html.indexOf(`alt="${m.name}（${m.motif}）のイラスト"`));
     expect(pos.every((p) => p >= 0)).toBe(true);
     expect([...pos].sort((x, y) => x - y)).toEqual(pos);

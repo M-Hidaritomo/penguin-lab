@@ -91,4 +91,13 @@ export const members: readonly Member[] = [
     career: '市場調査会社5年、アクセス解析',
     image: 'members/holo.webp',
   },
+  {
+    id: 'kumaji',
+    name: 'クマジ',
+    motif: 'くま',
+    role: '教育係',
+    tagline: '大らかで頼れる。急かさない',
+    career: 'プログラミング教室の講師を7年',
+    image: 'members/kumaji.webp',
+  },
 ];

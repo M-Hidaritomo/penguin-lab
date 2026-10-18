@@ -61,7 +61,7 @@ describe('dist（npm run build の後に実行）', () => {
     expect(h).toMatch(/<title>ぺんぎんラボ/);
     expect(h).toMatch(/<span[^>]*>ぺんぎんラボ<[/]span>/);
     expect(h).toContain('© ' + new Date().getFullYear() + ' ぺんぎんラボ');
-    expect(h).toContain('9人のチーム');
+    expect(h).toContain('10人のチーム');
   });
 
   it('title・description・OGP がある（og:image は絶対URL）', () => {
