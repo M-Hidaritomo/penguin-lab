@@ -7,10 +7,10 @@ import { products } from '../../src/data/products';
 describe('members', () => {
   it('10人が組織図順にそろう', () => {
     expect(members.map((m) => m.id)).toEqual([
-      'konko', 'poko', 'hime', 'kerota', 'moko', 'mike', 'penta', 'piyo', 'holo', 'kumaji',
+      'konko', 'poko', 'hime', 'koko', 'moko', 'mike', 'penta', 'piyo', 'holo', 'kumaji',
     ]);
     expect(members.map((m) => m.name)).toEqual([
-      'コンコ', 'ポコ', 'ヒメ', 'ケロタ', 'モコ', 'ミケ', 'ペンタ', 'ピヨ', 'ホロ', 'クマジ',
+      'コンコ', 'ポコ', 'ヒメ', 'ココ', 'モコ', 'ミケ', 'ペンタ', 'ピヨ', 'ホロ', 'クマジ',
     ]);
   });
   it('id・名前に重複がなく、全項目が空でない', () => {

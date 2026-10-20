@@ -38,13 +38,13 @@ export const members: readonly Member[] = [
     image: 'members/hime.webp',
   },
   {
-    id: 'kerota',
-    name: 'ケロタ',
-    motif: 'かえる',
+    id: 'koko',
+    name: 'ココ',
+    motif: 'フェネック',
     role: 'フロントエンドエンジニア',
-    tagline: '元気で手が速い',
+    tagline: '元気で手が速い。動きの気持ちよさにこだわる',
     career: 'React / Next.js 5年',
-    image: 'members/kerota.webp',
+    image: 'members/koko.webp',
   },
   {
     id: 'moko',

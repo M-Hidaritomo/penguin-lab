@@ -1,10 +1,10 @@
 """OGP 画像（public/ogp.png, 1200x630）を作る。ローカルで手動実行する（CI では動かさない）。
 
 使い方:
-    python scripts/make_ogp.py <元画像のパス> public/ogp.png
+    python scripts/make_ogp.py ../../docs/design/characters/penta-sheet.png public/ogp.png
 
 構図は docs/design/website-design.md 6章。左に文字、右にペンタ。
-ペンタは crop_members.py と同じ処理で元画像から切り出す（拡大しない）。
+ペンタは crop_member_sheets.py と同じ処理（キャラクターシートの「ノーマル」）で切り出した 400 角のカードをそのまま使う。
 HTML を一時フォルダに作り、ヘッドレスの Chrome / Edge でスクリーンショットを撮る。
 新しいパッケージは不要（Pillow と、入っているブラウザだけ）。
 """
@@ -16,7 +16,7 @@ from pathlib import Path
 from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent))
-import crop_members as cm  # noqa: E402
+import crop_member_sheets as cms  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 FONTS = ROOT / "node_modules/@fontsource/zen-maru-gothic/files"
@@ -49,23 +49,12 @@ PAW = ('<svg width="30" height="30" viewBox="0 0 24 24"><g fill="currentColor"><
        '<circle cx="19.5" cy="10.5" r="2.4"/></g></svg>')
 
 
-def crop_penta(sheet: Image.Image) -> Image.Image:
-    ref = cm.paper_color(sheet)
-    info = cm.locate(sheet, ref)["penta"]
-    card = cm.make_card(sheet, ref, info)
-    x0, y0, x1, y1 = info["bbox"]
-    # 400 角のカードから、キャラの範囲だけ（拡大なし）を取り出す
-    left = (cm.SIZE - (x1 - x0)) // 2
-    top = cm.SIZE - cm.FOOT_MARGIN - (y1 - y0)
-    return card.crop((left - 8, top - 8, left + (x1 - x0) + 8, top + (y1 - y0) + 8))
-
-
 def main() -> int:
     if len(sys.argv) != 3:
         print(__doc__)
         return 2
     sheet = Image.open(sys.argv[1]).convert("RGB")
-    penta = crop_penta(sheet)
+    penta, _ = cms.make(sheet)
     browser = next((b for b in BROWSERS if Path(b).exists()), None)
     if not browser:
         print("Chrome / Edge が見つかりません")
@@ -73,7 +62,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
         penta.save(tmp / "penta.png")
-        html = HTML % {"f": (FONTS.as_uri()), "img": "penta.png", "r": 140, "b": 64, "paws": PAW * 3}
+        html = HTML % {"f": (FONTS.as_uri()), "img": "penta.png", "r": 120, "b": 100, "paws": PAW * 3}
         (tmp / "ogp.html").write_text(html, encoding="utf-8")
         out = Path(sys.argv[2]).resolve()
         subprocess.run([browser, "--headless", "--disable-gpu", "--hide-scrollbars",
@@ -81,7 +70,7 @@ def main() -> int:
                        check=True, capture_output=True)
     img = Image.open(sys.argv[2])
     size = Path(sys.argv[2]).stat().st_size
-    print(f"ペンタ {penta.size}（元の大きさのまま） ogp {img.size} {size // 1024}KB")
+    print(f"ペンタ {penta.size} ogp {img.size} {size // 1024}KB")
     if img.size != (W, H) or size > MAX_BYTES:
         print("検証に失敗")
         return 1
