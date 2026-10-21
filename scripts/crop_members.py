@@ -5,7 +5,7 @@
     python scripts/crop_members.py <元画像のパス> public/members
 
 元画像は 1536x1024、名前ラベルなし。4・3・3 の10人（2・3行目は半歩ずらし）。並びは左から右へ、上の行から:
-    konko, poko, hime, kerota / moko, mike, piyo / penta, holo, kumaji
+    konko, poko, hime, koko / moko, mike, piyo / penta, holo, kumaji
 
 処理:
   1. 紙の色（最頻色）との差が大きい画素を「描かれた部分」とし、連結成分（行同士が縦に重なるため）から 10 人の範囲を求める
@@ -27,7 +27,7 @@ INK_THRESHOLD = 16  # 紙の色から各チャンネル16以上離れていた�
 FLATTEN_TOL = 6
 MIN_GAP = 12  # これより狭い隙間は同じキャラとして結合
 IDS = [
-    ["konko", "poko", "hime", "kerota"],
+    ["konko", "poko", "hime", "koko"],
     ["moko", "mike", "piyo"],
     ["penta", "holo", "kumaji"],
 ]

@@ -1,11 +1,11 @@
-"""キャラクターシート（docs/design/characters/<id>-sheet.png）の「ノーマル」全身を
+"""キャラクターシート（docs/design/characters/<id>-sheet.png）の「まえ」全身を
 public/members/<id>.webp（400x400）に切り出す。ローカルで手動実行する（CI では動かさない）。
 
 使い方:
     python scripts/crop_member_sheets.py ../../docs/design/characters public/members
 
 処理（crop_members.py の部品を使う）:
-  1. シート左上の「ノーマル」の範囲（x<SEARCH_W, y<SEARCH_H）で、紙の色との差が大きい画素の連結成分を求め、最大のものを本体とする
+  1. シート左上の「まえ」の範囲（SEARCH の範囲）で、紙の色との差が大きい画素の連結成分を求め、最大のものを本体とする
      （ハート・きらきら・名前札・手書き文字は別の成分なので落ちる）
   2. 本体の範囲（穴埋め・少し膨張）だけを残し、足元を基準に 400x400 の窓へ貼る（拡大縮小なし）
   3. 外周の紙（地色は #F9F8F7 より黄色い）を #F9F8F7 に置き換える
@@ -19,9 +19,10 @@ sys.path.insert(0, str(Path(__file__).parent))
 import crop_members as cm  # noqa: E402
 
 IDS = ["penta", "konko", "poko", "hime", "koko", "moko", "mike", "piyo", "holo", "kumaji"]
-SEARCH_W, SEARCH_H = 540, 575  # 「ノーマル」の列（下の区切り線は y>575）。ラベルや落書きは別の成分になり、最大の成分だけを残す
+SEARCH = (0, 80, 345, 385)  # 1段目いちばん左「まえ」の範囲（見出し帯は y<80、隣の「よこ」は x>345）  札や記号は別の成分になり、最大の成分だけを残す
 THRESHOLD = 14
-SCALE = 0.86  # 一番背の高いキャラ（影込みで約406px）が400角に収まる共通の縮小率（全員同じ率なので大きさの差は保たれる）
+SCALE = 1.0  # 新版は全員 270px 以下で描かれているので縮小しない（拡大もしない）。大きいキャラが入らなくなったら全員同じ率で下げる
+FOOT_MARGIN = 85  # 足元から窓の下端まで。一番背の高いキャラ（約230px）が窓の中ほどに来る高さ
 GROW = 5  # 毛先のやわらかい輪郭を残すための膨張（画素）
 
 
@@ -47,19 +48,22 @@ def body_mask(region: Image.Image, ref) -> Image.Image:
             if labels[y][x] == big:
                 lp[x, y] = 255
     lm = cm.fill_holes(lm).resize(region.size, Image.NEAREST)
+    x0, y0, x1, y1 = lm.getbbox()
+    if min(x0, y0, region.width - x1, region.height - y1) < 3:
+        raise SystemExit(f"本体が検索範囲の端に接しています {lm.getbbox()}（SEARCH を見直してください）")
     return lm.filter(ImageFilter.MaxFilter(GROW * 2 + 1))
 
 
 def make(sheet: Image.Image):
     ref = paper_of(sheet)
-    region = sheet.crop((0, 0, SEARCH_W, SEARCH_H))
+    region = sheet.crop(SEARCH)
     own = body_mask(region, ref)
-    region = sheet.crop((0, 0, SEARCH_W, SEARCH_H))
+    region = sheet.crop(SEARCH)
     ink = cm.ink_mask(region, ref, THRESHOLD)
     x0, y0, x1, y1 = ImageChops.multiply(own.filter(ImageFilter.MinFilter(GROW * 2 + 1)), ink).getbbox()
     win = round(cm.SIZE / SCALE)
     wx0 = (x0 + x1) // 2 - win // 2
-    wy1 = y1 + round(cm.FOOT_MARGIN / SCALE)
+    wy1 = y1 + round(FOOT_MARGIN / SCALE)
     wy0 = wy1 - win
     canvas = Image.new("RGB", (win, win), ref)
     own_only = Image.composite(region, Image.new("RGB", region.size, ref), own)
@@ -79,7 +83,7 @@ def main() -> int:
     problems = []
     for mid in IDS:
         sheet = Image.open(src / f"{mid}-sheet.png").convert("RGB")
-        if sheet.size != (1536, 1024):
+        if abs(sheet.width - 1536) > 2 or abs(sheet.height - 1024) > 2:
             problems.append(f"{mid}: サイズが {sheet.size}")
             continue
         img, (w, h) = make(sheet)

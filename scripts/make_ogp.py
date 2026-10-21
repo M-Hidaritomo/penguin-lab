@@ -36,7 +36,7 @@ html,body{margin:0;width:1200px;height:630px;background:#f9f8f7;color:#4a3728;fo
 .t2{position:absolute;left:80px;top:258px;font-size:56px;line-height:72px}
 .t3{position:absolute;left:80px;top:344px;font-size:32px;line-height:44px;color:#6e5a4c}
 .paws{position:absolute;left:84px;top:500px;display:flex;gap:34px;color:#ddd3c4}
-img{position:absolute;right:%(r)dpx;bottom:%(b)dpx}
+img{position:absolute;right:%(r)dpx;bottom:%(b)dpx;width:480px;height:480px}  /* 400 角を 1.2 倍（OGP は縮小表示される前提で、ここだけ拡大を許す） */
 </style>
 <div class="t1">ぺんぎんラボ</div><div class="rule"></div>
 <div class="t2">日常の面倒をなくす</div>
@@ -62,7 +62,7 @@ def main() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
         penta.save(tmp / "penta.png")
-        html = HTML % {"f": (FONTS.as_uri()), "img": "penta.png", "r": 120, "b": 100, "paws": PAW * 3}
+        html = HTML % {"f": (FONTS.as_uri()), "img": "penta.png", "r": 50, "b": -60, "paws": PAW * 3}
         (tmp / "ogp.html").write_text(html, encoding="utf-8")
         out = Path(sys.argv[2]).resolve()
         subprocess.run([browser, "--headless", "--disable-gpu", "--hide-scrollbars",
