@@ -59,7 +59,7 @@ describe('dist（npm run build の後に実行）', () => {
     for (const f of files) expect(read(f), f).not.toContain('ペンギンラボ');
     const h = html();
     expect(h).toMatch(/<title>ぺんぎんラボ/);
-    expect(h).toMatch(/<span[^>]*>ぺんぎんラボ<[/]span>/);
+    expect(h).toMatch(/<img[^>]*alt="ぺんぎんラボ"/);
     expect(h).toContain('© ' + new Date().getFullYear() + ' ぺんぎんラボ');
     expect(h).toContain('10人のチーム');
   });
