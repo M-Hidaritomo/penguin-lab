@@ -11,7 +11,7 @@ const links = [
 <header class="site-header" id="site-header">
   <div class="container site-header__inner">
     <a class="logo" href={withBase('')}>
-      <img src={withBase('logo.png')} width="185" height="156" alt="ぺんぎんラボ" />
+      <img src={withBase('logo.png')} width="285" height="240" alt="ぺんぎんラボ" />
     </a>
     <nav aria-label="ページ内メニュー">
       <ul class="nav">
@@ -42,7 +42,7 @@ const links = [
   .logo img {
     display: block;
     width: auto;
-    height: 64px; /* 元画像は 156px（デスクトップ 52px の 3 倍密度） */
+    height: 64px; /* 元画像は 240px（デスクトップ 80px の 3 倍密度） */
   }
   .nav {
     display: grid;
@@ -74,12 +74,15 @@ const links = [
       position: sticky;
       top: 0;
       z-index: 10;
-      height: 64px;
+      height: 96px;
       padding-block: 0;
       border-bottom: var(--border-card);
     }
     .logo img {
-      height: 52px;
+      height: 80px;
+    }
+    :global(html) {
+      scroll-padding-top: 112px !important; /* ヘッダー 96px + 余白（global.css は別作業中のため、ここで上書き） */
     }
     .site-header__inner {
       flex-direction: row;

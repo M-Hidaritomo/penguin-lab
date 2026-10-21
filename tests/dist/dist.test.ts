@@ -22,6 +22,11 @@ describe('dist（npm run build の後に実行）', () => {
     expect(existsSync(path.join(dist, 'index.html'))).toBe(true);
   });
 
+  it('logo.png と favicon.svg が dist にある', () => {
+    expect(existsSync(path.join(dist, 'logo.png'))).toBe(true);
+    expect(existsSync(path.join(dist, 'favicon.svg'))).toBe(true);
+  });
+
   const html = () => read(path.join(dist, 'index.html'));
 
   it('7セクションが仕様の順に並ぶ', () => {

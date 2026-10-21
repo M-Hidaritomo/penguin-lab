@@ -4,7 +4,7 @@
     python scripts/make_logo_assets.py ../../docs/design/logo/penguinlab-logo.png public ../../docs/design/sns/2026-10-21-icon-logo.png
 
 出力:
-  public/logo.png        ヘッダー用。本体だけ（紙の余白を落とし、紙の地色を #F9F8F7 に置き換え）。高さ 156px（表示 52px の 3 倍密度）
+  public/logo.png        ヘッダー用。本体だけ（紙の余白を落とし、紙の地色を #F9F8F7 に置き換え）。高さ 240px（PC 表示 80px の 3 倍密度）
   public/favicon.svg     ペンギンの頭（冠羽とくちばし）を正方形にして PNG を data URI で埋め込んだ SVG
   <第3引数>              SNS アイコン用の正方形 PNG（円形に切っても欠けない余白つき）。HP には入れない
 縮小のみで拡大はしない。
@@ -17,7 +17,7 @@ from pathlib import Path
 from PIL import Image, ImageChops, ImageStat
 
 BG = (0xF9, 0xF8, 0xF7)
-HEADER_H = 156
+HEADER_H = 240
 FAVICON_BOX = (585, 200, 955, 420)  # 元画像上の頭の部分（文字は含めない）
 FAVICON_PX = 64
 CUT_Y, BEAK_X = 396, (725, 815)
@@ -38,6 +38,7 @@ def main() -> int:
         print(__doc__)
         return 2
     src, pub, icon = Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3])
+    pub.mkdir(parents=True, exist_ok=True)
     img = Image.open(src).convert("RGB")
     paper = tuple(round(v) for v in ImageStat.Stat(img.crop((0, 0, 200, 200))).median)
     flat = flatten(img, paper)
